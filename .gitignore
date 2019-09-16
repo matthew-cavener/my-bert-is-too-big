@@ -111,3 +111,6 @@ hub_modules
 
 # big ol data
 jigsaw-toxic
+
+# whatever the heck Apple keeps adding to my directories
+.DS_Store
