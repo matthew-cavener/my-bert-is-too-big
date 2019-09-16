@@ -7,4 +7,4 @@ services:
       - "8081:8081"
     volumes:
       - ./distill:/app/distill
-    # command: python3 tf_hub_cache.py
+    command: uvicorn distill.main:app --reload --host 0.0.0.0 --port 8081

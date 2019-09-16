@@ -7,9 +7,6 @@ RUN apt-get update && \
   apt-get install -y \
   python3-dev
 
-# RUN pip install --upgrade pip && \
-#   pip install torch && \
-#   pip install pytorch-transformers
 COPY ./requirements.txt .
 RUN pip install --upgrade pip && \
   pip install -r requirements.txt
@@ -18,5 +15,5 @@ ENV TFHUB_CACHE_DIR=/app/distill/models/hub_modules
 ENV PYTHONUNBUFFERED=0
 ENV TF_CPP_MIN_LOG_LEVEL=3
 
-COPY . .
+COPY . ./distill
 EXPOSE 8081

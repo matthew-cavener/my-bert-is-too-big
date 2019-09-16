@@ -110,7 +110,8 @@ hub_modules
 *.pickle
 
 # big ol data
-jigsaw-toxic
+/distill/data/
 
 # whatever the heck Apple keeps adding to my directories
 .DS_Store
+**/.DS_Store
