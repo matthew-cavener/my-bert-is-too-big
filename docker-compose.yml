@@ -1,0 +1,10 @@
+version: '3'
+services:
+  distill:
+    tty: true
+    build: ./distill
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./distill:/app/distill
+    # command: python3 tf_hub_cache.py
