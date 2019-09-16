@@ -7,7 +7,7 @@ Using a small model to learn the function that a very large, complicated one lea
 # Motivation
 BERT inference takes too long. I'm curious if I can reduce inference time while maintaining (or maybe improving???) performance.
 
-Inspired by this talk on "Dark Knowledge": `https://www.youtube.com/watch?v=EK61htlw8hY`
+Inspired by this talk on "Dark Knowledge": https://www.youtube.com/watch?v=EK61htlw8hY
 
 "Physicists will tell you 95% of the stuff in the universe [dark matter, dark energy] is not what they were paying attention to, its something else. 95% of what a neural net learns is not what you were trying to get it to learn, and not what you were testing it on."
 
@@ -19,7 +19,7 @@ Inspired by this talk on "Dark Knowledge": `https://www.youtube.com/watch?v=EK61
 
 "The net your transfer the knowledge to does worse than the big model so what's the point? The point is a.) it's an amazing effect and b.) it'll allow you to have a very little production model."
 
-And this talk on Knowledge Distillation: `https://blog.feedly.com/nlp-breakfast-8-knowledge-distillation/`
+And this talk on Knowledge Distillation: https://blog.feedly.com/nlp-breakfast-8-knowledge-distillation/
 
 Take aways of those are basically that the big network learns much richer information than the sort of one-hot encoded data fed it.
 In the MNIST example, a big network can learn on its own that a 1 and a 7 are similar, but it also has a bunch of (Hinton argues mostly) so called "Dark Knowledge"
@@ -53,26 +53,26 @@ Later should use FTed BERT logits as soft targets, should implement annealing, s
 
 # Other references
 ModelCompression (Bucila et al, 2006)
-`https://www.cs.cornell.edu/~caruana/compression.kdd06.pdf`
+https://www.cs.cornell.edu/~caruana/compression.kdd06.pdf
 
 Distilling the Knowledge in a Neural Network (Hinton et al, 2015)
-`https://arxiv.org/abs/1503.02531`
+https://arxiv.org/abs/1503.02531
 
 Distilling Task-Specific Knowledge from BERT into Simple Neural Networks (Tang et al, 2019):
-`https://arxiv.org/abs/1903.12136`
+https://arxiv.org/abs/1903.12136
 
 Born Again Neural Networks (Furlanello et al, 2018):
-`https://arxiv.org/abs/1805.04770`
+https://arxiv.org/abs/1805.04770
 
 BAM! Born-Again Multi-Task Networks for Natural Language Understanding (Clark et al, 2019):
-`https://arxiv.org/abs/1907.04829`
+https://arxiv.org/abs/1907.04829
 
 Awesome Knowledge Distillation (Contains most of the above as well)
-`https://github.com/dkozlov/awesome-knowledge-distillation`
+https://github.com/dkozlov/awesome-knowledge-distillation
 
 Distilling BERT — How to achieve BERT performance using Logistic Regression:
-`https://towardsdatascience.com/distilling-bert-how-to-achieve-bert-performance-using-logistic-regression-69a7fc14249d`
+https://towardsdatascience.com/distilling-bert-how-to-achieve-bert-performance-using-logistic-regression-69a7fc14249d
 
 🏎 Smaller, faster, cheaper, lighter: Introducing DistilBERT, a distilled version of BERT:
-`https://medium.com/huggingface/distilbert-8cf3380435b5`
+https://medium.com/huggingface/distilbert-8cf3380435b5
 
