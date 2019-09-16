@@ -35,9 +35,9 @@ It encodes those similarities that the big network had to work so hard to learn,
 It's basically the difference between having to discover calculus for yourself and learning it from a textbook. Someone else already did the hard work figuring everything out, you just need to know how to use it.
 
 # Work to do for experimentation
-1.) Train some simpler classifiers on that same dataset to create a baseline.
+1.) Train some simpler classifiers on some text classification problem to create a baseline.
 
-2.) Fine Tune a BERT model for some text classification problem.
+2.) Fine Tune a BERT model for that same dataset.
 
 3.) "Create" new dataset by having FTed BERT soft label the text from the training dataset.
 
@@ -49,7 +49,7 @@ It's basically the difference between having to discover calculus for yourself a
 
 7.) Set up nice webserver that compares input text to BERT and Simpler Models, compare inference time, do cosine similarity of output probabilities to get quick idea of how close the simple ones are to BERT.
 
-Later should do multiclass problem, use FTed BERT logits as soft targets, should implement annealing, should use BiLSTM as one of the Simple Models.
+Later should use FTed BERT logits as soft targets, should implement annealing, should use BiLSTM as one of the Simple Models.
 
 # Other references
 ModelCompression (Bucila et al, 2006)
