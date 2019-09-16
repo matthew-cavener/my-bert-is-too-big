@@ -1,7 +1,7 @@
 # my-bert-is-too-big
 Doing Knowledge Distillation on BERT because the inference time is too damn high!
 
-Using a small model to learn the function that a very large, complicated one learned by getting the nuance of the dataset for free, instead of having to learn it on its own.
+Using a small model to learn the function that a very large, complicated one learned by getting the nuance of the dataset for free (given by the large complicated "teacher"), instead of having to learn it on its own.
 
 
 # Motivation
@@ -35,21 +35,21 @@ It encodes those similarities that the big network had to work so hard to learn,
 It's basically the difference between having to discover calculus for yourself and learning it from a textbook. Someone else already did the hard work figuring everything out, you just need to know how to use it.
 
 # Work to do for experimentation
-1.) Fine Tune a BERT model for some Multiclass classification problem (in progress, sub set of toxic comments dataset)
+1.) Train some simpler classifiers on that same dataset to create a baseline.
 
-2.) Train some simpler classifiers on that same dataset to create a baseline.
+2.) Fine Tune a BERT model for some text classification problem.
 
 3.) "Create" new dataset by having FTed BERT soft label the text from the training dataset.
 
 4.) Train the simpler classifiers on the soft labelled dataset.
 
-5.) Take validation set that none of the models have seen and compare performance (including inference time) of: BERT, Baseline simples, Soft labelled simples.
+5.) Compare accuracies of BERT, baseline, and soft label learners.
 
 6.) (Maybe) see how an ensamble of simpler methods does compared to BERT, while keeping inference time ~1/100th.
 
 7.) Set up nice webserver that compares input text to BERT and Simpler Models, compare inference time, do cosine similarity of output probabilities to get quick idea of how close the simple ones are to BERT.
 
-Later should use FTed BERT logits as soft targets, should implement annealing, should use BiLSTM as one of the Simple Models.
+Later should do multiclass problem, use FTed BERT logits as soft targets, should implement annealing, should use BiLSTM as one of the Simple Models.
 
 # Other references
 ModelCompression (Bucila et al, 2006)
