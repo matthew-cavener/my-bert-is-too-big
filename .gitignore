@@ -102,3 +102,15 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# tfhub stuff
+hub_modules
+
+# pickles
+*.pickle
+
+# big ol data
+jigsaw-toxic
+
+# whatever the heck Apple keeps adding to my directories
+.DS_Store
