@@ -5,3 +5,4 @@ numpy
 fastapi
 uvicorn
 ktrain
+keras_bert==0.71.0
