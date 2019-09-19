@@ -23,16 +23,8 @@ And this talk on Knowledge Distillation: https://blog.feedly.com/nlp-breakfast-8
 
 Take aways of those are basically that the big network learns much richer information than the sort of one-hot encoded data fed it.
 In the MNIST example, a big network can learn on its own that a 1 and a 7 are similar, but it also has a bunch of (Hinton argues mostly) so called "Dark Knowledge"
-That is, that the probability of it being an 8 is 1000 times less than that of it being a 4, but while that isn't info we really care about, the network worked very hard to learn that, and at inference time works very hard to determine that realtive probability.
 
-So to speed things up we get this nice big complicated model to learn these nuances, and then use it to label some data, producing "soft targets".
-Ideally, you'd use the logits, but you can also "temperature scale" the softmax. (Hence the term distillation)
-
-Anyway, now you have these predictions (again, using the MNIST `1` example) from your big model like `[.001, .791, 1e-7, 1e-6, 1e-7, 1e-6, 1e-4, .210, 1e-4, 1e-5]` and instead create these soft targets from the temp scaled softmax: `[~0, .6, ~0, ~0, ~0, ~0, ~0, .4, ~0, ~0]` which is a much richer than the original `[0, 0, 0, 1, 0, 0, 0, 0, 0, 0]`, and avoids having to learn "Dark Knowledge" we don't actually care about, while preserving the sorts of similarity we do.
-It encodes those similarities that the big network had to work so hard to learn, and a gives them to a smaller network for free. So we can get similar results with a much smaller network, and more importantly, much faster inference time, since it doesn't have to learn these nuances for itself.
-
-
-It's basically the difference between having to discover calculus for yourself and learning it from a textbook. Someone else already did the hard work figuring everything out, you just need to know how to use it.
+That is, the network knows a great deal about generalization between related classes, even among unrealted prediction, and we don't necessarily need a network that "has" that knowledge, so much as one that can use it.
 
 # Work to do for experimentation
 1.) Train some simpler classifiers on some text classification problem to create a baseline.
