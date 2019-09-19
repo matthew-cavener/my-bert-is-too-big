@@ -22,7 +22,6 @@ print('size of training set: %s' % (len(train['data'])))
 print('size of validation set: %s' % (len(test['data'])))
 print('classes: %s' % (train.target_names))
 
-count_vect = CountVectorizer()
 text_clf = Pipeline([
     ('vect', CountVectorizer()),
     ('tfidf', TfidfTransformer()),
