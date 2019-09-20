@@ -6,3 +6,5 @@ fastapi
 uvicorn
 ktrain
 keras_bert==0.71.0
+pydot
+graphviz
