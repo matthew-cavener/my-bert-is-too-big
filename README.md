@@ -26,6 +26,99 @@ In the MNIST example, a big network can learn on its own that a 1 and a 7 are si
 
 That is, the network knows a great deal about generalization between related classes, even among unrealted prediction, and we don't necessarily need a network that "has" that knowledge, so much as one that can use it.
 
+# Experimental results
+So I ended up not using BERT because training was taking entirely too long, so I used an NBSVM.
+I used linear regression as my simple model because anything more complicated had about the same accuracy (~82-84).
+I used the 20 news groups dataset because the actual problem I'm concerned with is in the same vein (which class does this text belong to?)
+The results were... disappointing to say the least. Given the data presented in the literature and other implementations I'm inclined to say my results are due to not using a model (like BERT) that would achieve much higher accuracy, and a datasset that is both large and "easy".
+Results below:
+
+NBSVM============================
+                          precision    recall  f1-score   support
+
+             alt.atheism       0.86      0.74      0.80       319
+           comp.graphics       0.74      0.74      0.74       389
+ comp.os.ms-windows.misc       0.78      0.70      0.74       394
+comp.sys.ibm.pc.hardware       0.70      0.76      0.73       392
+   comp.sys.mac.hardware       0.84      0.85      0.84       385
+          comp.windows.x       0.84      0.83      0.83       395
+            misc.forsale       0.85      0.87      0.86       390
+               rec.autos       0.88      0.91      0.90       396
+         rec.motorcycles       0.96      0.95      0.95       398
+      rec.sport.baseball       0.93      0.92      0.93       397
+        rec.sport.hockey       0.94      0.98      0.96       399
+               sci.crypt       0.91      0.93      0.92       396
+         sci.electronics       0.81      0.75      0.78       393
+                 sci.med       0.91      0.82      0.86       396
+               sci.space       0.92      0.92      0.92       394
+  soc.religion.christian       0.91      0.93      0.92       398
+      talk.politics.guns       0.80      0.89      0.85       364
+   talk.politics.mideast       0.96      0.88      0.92       376
+      talk.politics.misc       0.72      0.67      0.69       310
+      talk.religion.misc       0.55      0.75      0.64       251
+
+                accuracy                           0.84      7532
+               macro avg       0.84      0.84      0.84      7532
+            weighted avg       0.85      0.84      0.84      7532
+
+
+LinearRegressionBaseline==========
+                          precision    recall  f1-score   support
+
+             alt.atheism       0.82      0.73      0.77       319
+           comp.graphics       0.56      0.70      0.62       389
+ comp.os.ms-windows.misc       0.42      0.56      0.48       394
+comp.sys.ibm.pc.hardware       0.43      0.67      0.53       392
+   comp.sys.mac.hardware       0.83      0.75      0.79       385
+          comp.windows.x       0.72      0.60      0.65       395
+            misc.forsale       0.56      0.75      0.64       390
+               rec.autos       0.93      0.80      0.86       396
+         rec.motorcycles       0.97      0.92      0.95       398
+      rec.sport.baseball       0.92      0.87      0.90       397
+        rec.sport.hockey       0.97      0.91      0.94       399
+               sci.crypt       0.96      0.84      0.90       396
+         sci.electronics       0.69      0.70      0.70       393
+                 sci.med       0.91      0.73      0.81       396
+               sci.space       0.90      0.79      0.84       394
+  soc.religion.christian       0.85      0.90      0.87       398
+      talk.politics.guns       0.78      0.86      0.82       364
+   talk.politics.mideast       0.98      0.82      0.89       376
+      talk.politics.misc       0.84      0.58      0.69       310
+      talk.religion.misc       0.73      0.64      0.68       251
+
+                accuracy                           0.76      7532
+               macro avg       0.79      0.76      0.77      7532
+            weighted avg       0.79      0.76      0.77      7532
+
+
+LinearRegressionDistilled=========
+                          precision    recall  f1-score   support
+
+             alt.atheism       0.77      0.69      0.73       319
+           comp.graphics       0.73      0.61      0.67       389
+ comp.os.ms-windows.misc       0.29      0.62      0.40       394
+comp.sys.ibm.pc.hardware       0.64      0.62      0.63       392
+   comp.sys.mac.hardware       0.81      0.69      0.75       385
+          comp.windows.x       0.78      0.59      0.68       395
+            misc.forsale       0.82      0.63      0.71       390
+               rec.autos       0.88      0.83      0.86       396
+         rec.motorcycles       0.94      0.90      0.92       398
+      rec.sport.baseball       0.88      0.90      0.89       397
+        rec.sport.hockey       0.93      0.91      0.92       399
+               sci.crypt       0.89      0.84      0.86       396
+         sci.electronics       0.75      0.59      0.66       393
+                 sci.med       0.87      0.77      0.82       396
+               sci.space       0.90      0.84      0.87       394
+  soc.religion.christian       0.85      0.82      0.84       398
+      talk.politics.guns       0.75      0.87      0.81       364
+   talk.politics.mideast       0.95      0.84      0.89       376
+      talk.politics.misc       0.60      0.59      0.60       310
+      talk.religion.misc       0.45      0.67      0.54       251
+
+                accuracy                           0.75      7532
+               macro avg       0.77      0.74      0.75      7532
+            weighted avg       0.78      0.75      0.76      7532
+
 # Work to do for experimentation
 1.) Train some simpler classifiers on some text classification problem to create a baseline.
 
