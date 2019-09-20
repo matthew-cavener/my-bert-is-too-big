@@ -33,6 +33,7 @@ I used the 20 news groups dataset because the actual problem I'm concerned with 
 The results were... disappointing to say the least. Given the data presented in the literature and other implementations I'm inclined to say my results are due to not using a model (like BERT) that would achieve much higher accuracy, and a datasset that is both large and "easy".
 Results below:
 
+```
 NBSVM============================
                           precision    recall  f1-score   support
 
@@ -60,8 +61,8 @@ comp.sys.ibm.pc.hardware       0.70      0.76      0.73       392
                 accuracy                           0.84      7532
                macro avg       0.84      0.84      0.84      7532
             weighted avg       0.85      0.84      0.84      7532
-
-
+```
+```
 LinearRegressionBaseline==========
                           precision    recall  f1-score   support
 
@@ -89,8 +90,8 @@ comp.sys.ibm.pc.hardware       0.43      0.67      0.53       392
                 accuracy                           0.76      7532
                macro avg       0.79      0.76      0.77      7532
             weighted avg       0.79      0.76      0.77      7532
-
-
+```
+```
 LinearRegressionDistilled=========
                           precision    recall  f1-score   support
 
@@ -118,6 +119,7 @@ comp.sys.ibm.pc.hardware       0.64      0.62      0.63       392
                 accuracy                           0.75      7532
                macro avg       0.77      0.74      0.75      7532
             weighted avg       0.78      0.75      0.76      7532
+```
 
 # Work to do for experimentation
 1.) Train some simpler classifiers on some text classification problem to create a baseline.
