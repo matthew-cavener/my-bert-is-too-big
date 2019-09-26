@@ -20,13 +20,15 @@ train = fetch_20newsgroups(
     subset='train',
     shuffle=True,
     random_state=42,
-    data_home='/app/distill/data'
+    data_home='/app/distill/data',
+    remove=('headers', 'footers', 'quotes')
 )
 test = fetch_20newsgroups(
     subset='test',
     shuffle=True,
     random_state=42,
-    data_home='/app/distill/data'
+    data_home='/app/distill/data',
+    remove=('headers', 'footers', 'quotes')
 )
 
 print('size of training set: %s' % (len(train['data'])))
@@ -41,18 +43,19 @@ y_test = test.target
 (x_train,  y_train), (x_test, y_test), preproc = text.texts_from_array(x_train=x_train, y_train=y_train,
                                                                        x_test=x_test, y_test=y_test,
                                                                        class_names=train.target_names,
-                                                                       ngram_range=2, 
-                                                                       maxlen=1000, 
-                                                                       max_features=50000)
+                                                                       preprocess_mode='bert',
+                                                                       ngram_range=1, 
+                                                                       maxlen=400, 
+                                                                       max_features=35000)
 
-model = text.text_classifier('nbsvm', train_data=(x_train, y_train))
-learner = ktrain.get_learner(model, train_data=(x_train, y_train), val_data=(x_test, y_test))
-learner.load_model('/app/distill/models/trained_models/nbsvm')
-
-print('\n\n\nNBSVM validtion ==========')
-print(learner.validate(val_data=(x_test, y_test), class_names=train.target_names))
+model = text.text_classifier('bert', train_data=(x_train, y_train))
+learner = ktrain.get_learner(model, train_data=(x_train, y_train), batch_size=4)
+learner.load_model('/app/distill/models/trained_models/bert.h5')
 print(model.summary())
 print(learner.print_layers())
+
+print('\n\n\BERT validtion ==========')
+print(learner.validate(val_data=(x_test, y_test), class_names=train.target_names))
 
 
 print('\n\n\nLogReg validtion =========')
@@ -73,14 +76,13 @@ print(classification_report(test.target, prediction, target_names=test.target_na
 
 
 # Get the logits out of the model for the training data
+from math import log
 intermediate_layer_model = Model(inputs=learner.model.input,
-                                 outputs=learner.model.get_layer('activation_1').input)
+                                 outputs=learner.model.get_layer('dense_1').output)
 logits = intermediate_layer_model.predict(x_train)
+logits = [list(map(log, _)) for _ in logits]
 
 print(list(logits[0]))
-print(learner.layer_output(4))
-print(activation_choice(logits[0]))
-print(activation_choice(learner.layer_output(4)[0]))
 print(test.target[0])
 
 
@@ -101,89 +103,89 @@ print(classification_report(test.target, prediction, target_names=test.target_na
 
 
 """
-NBSVM=============
+BERT validtion ==========
                           precision    recall  f1-score   support
 
-             alt.atheism       0.86      0.74      0.80       319
-           comp.graphics       0.74      0.74      0.74       389
- comp.os.ms-windows.misc       0.78      0.70      0.74       394
-comp.sys.ibm.pc.hardware       0.70      0.76      0.73       392
-   comp.sys.mac.hardware       0.84      0.85      0.84       385
-          comp.windows.x       0.84      0.83      0.83       395
-            misc.forsale       0.85      0.87      0.86       390
-               rec.autos       0.88      0.91      0.90       396
-         rec.motorcycles       0.96      0.95      0.95       398
-      rec.sport.baseball       0.93      0.92      0.93       397
-        rec.sport.hockey       0.94      0.98      0.96       399
-               sci.crypt       0.91      0.93      0.92       396
-         sci.electronics       0.81      0.75      0.78       393
-                 sci.med       0.91      0.82      0.86       396
-               sci.space       0.92      0.92      0.92       394
-  soc.religion.christian       0.91      0.93      0.92       398
-      talk.politics.guns       0.80      0.89      0.85       364
-   talk.politics.mideast       0.96      0.88      0.92       376
-      talk.politics.misc       0.72      0.67      0.69       310
-      talk.religion.misc       0.55      0.75      0.64       251
+             alt.atheism       0.54      0.47      0.50       319
+           comp.graphics       0.73      0.70      0.71       389
+ comp.os.ms-windows.misc       0.70      0.66      0.68       394
+comp.sys.ibm.pc.hardware       0.69      0.63      0.66       392
+   comp.sys.mac.hardware       0.74      0.75      0.75       385
+          comp.windows.x       0.80      0.83      0.81       395
+            misc.forsale       0.87      0.84      0.85       390
+               rec.autos       0.55      0.76      0.64       396
+         rec.motorcycles       0.73      0.75      0.74       398
+      rec.sport.baseball       0.92      0.81      0.86       397
+        rec.sport.hockey       0.90      0.88      0.89       399
+               sci.crypt       0.80      0.73      0.76       396
+         sci.electronics       0.63      0.62      0.63       393
+                 sci.med       0.83      0.83      0.83       396
+               sci.space       0.77      0.80      0.78       394
+  soc.religion.christian       0.73      0.75      0.74       398
+      talk.politics.guns       0.61      0.67      0.64       364
+   talk.politics.mideast       0.91      0.78      0.84       376
+      talk.politics.misc       0.50      0.48      0.49       310
+      talk.religion.misc       0.33      0.40      0.36       251
 
-                accuracy                           0.84      7532
-               macro avg       0.84      0.84      0.84      7532
-            weighted avg       0.85      0.84      0.84      7532
+                accuracy                           0.72      7532
+               macro avg       0.71      0.71      0.71      7532
+            weighted avg       0.72      0.72      0.72      7532
 
 
 LinearRegressionBaseline==========
                           precision    recall  f1-score   support
 
-             alt.atheism       0.82      0.73      0.77       319
-           comp.graphics       0.56      0.70      0.62       389
- comp.os.ms-windows.misc       0.42      0.56      0.48       394
-comp.sys.ibm.pc.hardware       0.43      0.67      0.53       392
-   comp.sys.mac.hardware       0.83      0.75      0.79       385
-          comp.windows.x       0.72      0.60      0.65       395
-            misc.forsale       0.56      0.75      0.64       390
-               rec.autos       0.93      0.80      0.86       396
-         rec.motorcycles       0.97      0.92      0.95       398
-      rec.sport.baseball       0.92      0.87      0.90       397
-        rec.sport.hockey       0.97      0.91      0.94       399
-               sci.crypt       0.96      0.84      0.90       396
-         sci.electronics       0.69      0.70      0.70       393
-                 sci.med       0.91      0.73      0.81       396
-               sci.space       0.90      0.79      0.84       394
-  soc.religion.christian       0.85      0.90      0.87       398
-      talk.politics.guns       0.78      0.86      0.82       364
-   talk.politics.mideast       0.98      0.82      0.89       376
-      talk.politics.misc       0.84      0.58      0.69       310
-      talk.religion.misc       0.73      0.64      0.68       251
+             alt.atheism       0.55      0.41      0.47       319
+           comp.graphics       0.49      0.52      0.51       389
+ comp.os.ms-windows.misc       0.40      0.46      0.43       394
+comp.sys.ibm.pc.hardware       0.24      0.52      0.33       392
+   comp.sys.mac.hardware       0.49      0.50      0.49       385
+          comp.windows.x       0.73      0.49      0.58       395
+            misc.forsale       0.28      0.61      0.38       390
+               rec.autos       0.39      0.64      0.48       396
+         rec.motorcycles       0.56      0.56      0.56       398
+      rec.sport.baseball       0.79      0.65      0.71       397
+        rec.sport.hockey       0.81      0.67      0.74       399
+               sci.crypt       0.78      0.54      0.64       396
+         sci.electronics       0.63      0.40      0.49       393
+                 sci.med       0.87      0.57      0.69       396
+               sci.space       0.73      0.52      0.61       394
+  soc.religion.christian       0.66      0.63      0.64       398
+      talk.politics.guns       0.62      0.52      0.57       364
+   talk.politics.mideast       0.87      0.61      0.72       376
+      talk.politics.misc       0.59      0.35      0.44       310
+      talk.religion.misc       0.37      0.24      0.29       251
 
-                accuracy                           0.76      7532
-               macro avg       0.79      0.76      0.77      7532
-            weighted avg       0.79      0.76      0.77      7532
+                accuracy                           0.53      7532
+               macro avg       0.59      0.52      0.54      7532
+            weighted avg       0.60      0.53      0.55      7532
 
 
-LinearRegressionDistilled=========
+LogRegDist validtion =====
                           precision    recall  f1-score   support
 
-             alt.atheism       0.77      0.69      0.73       319
-           comp.graphics       0.73      0.61      0.67       389
- comp.os.ms-windows.misc       0.29      0.62      0.40       394
-comp.sys.ibm.pc.hardware       0.64      0.62      0.63       392
-   comp.sys.mac.hardware       0.81      0.69      0.75       385
-          comp.windows.x       0.78      0.59      0.68       395
-            misc.forsale       0.82      0.63      0.71       390
-               rec.autos       0.88      0.83      0.86       396
-         rec.motorcycles       0.94      0.90      0.92       398
-      rec.sport.baseball       0.88      0.90      0.89       397
-        rec.sport.hockey       0.93      0.91      0.92       399
-               sci.crypt       0.89      0.84      0.86       396
-         sci.electronics       0.75      0.59      0.66       393
-                 sci.med       0.87      0.77      0.82       396
-               sci.space       0.90      0.84      0.87       394
-  soc.religion.christian       0.85      0.82      0.84       398
-      talk.politics.guns       0.75      0.87      0.81       364
-   talk.politics.mideast       0.95      0.84      0.89       376
-      talk.politics.misc       0.60      0.59      0.60       310
-      talk.religion.misc       0.45      0.67      0.54       251
+             alt.atheism       0.52      0.45      0.48       319
+           comp.graphics       0.57      0.64      0.60       389
+ comp.os.ms-windows.misc       0.48      0.57      0.52       394
+comp.sys.ibm.pc.hardware       0.60      0.57      0.58       392
+   comp.sys.mac.hardware       0.51      0.62      0.56       385
+          comp.windows.x       0.75      0.58      0.65       395
+            misc.forsale       0.75      0.68      0.72       390
+               rec.autos       0.45      0.69      0.54       396
+         rec.motorcycles       0.60      0.67      0.63       398
+      rec.sport.baseball       0.80      0.70      0.74       397
+        rec.sport.hockey       0.82      0.77      0.79       399
+               sci.crypt       0.74      0.66      0.69       396
+         sci.electronics       0.58      0.53      0.56       393
+                 sci.med       0.77      0.65      0.70       396
+               sci.space       0.69      0.61      0.65       394
+  soc.religion.christian       0.63      0.66      0.64       398
+      talk.politics.guns       0.58      0.58      0.58       364
+   talk.politics.mideast       0.82      0.65      0.73       376
+      talk.politics.misc       0.46      0.41      0.44       310
+      talk.religion.misc       0.30      0.40      0.34       251
 
-                accuracy                           0.75      7532
-               macro avg       0.77      0.74      0.75      7532
-            weighted avg       0.78      0.75      0.76      7532
+                accuracy                           0.61      7532
+               macro avg       0.62      0.60      0.61      7532
+            weighted avg       0.63      0.61      0.62      7532
 """

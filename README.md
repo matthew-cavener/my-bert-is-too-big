@@ -27,98 +27,95 @@ In the MNIST example, a big network can learn on its own that a 1 and a 7 are si
 That is, the network knows a great deal about generalization between related classes, even among unrealted prediction, and we don't necessarily need a network that "has" that knowledge, so much as one that can use it.
 
 # Experimental results
-So I ended up not using BERT because training was taking entirely too long, so I used an NBSVM.
-I used linear regression as my simple model because anything more complicated had about the same accuracy (~82-84).
-I used the 20 news groups dataset because the actual problem I'm concerned with is in the same vein (which class does this text belong to?)
-The results were... disappointing to say the least. Given the data presented in the literature and other implementations I'm inclined to say my results are due to not using a model (like BERT) that would achieve much higher accuracy, and a datasset that is both large and "easy".
+So the distilled linear regression model outperformed the baseline linear regression model by a pretty decent margin. I fixed some of the issues from the last time I ran the experiment by following sklearn's advice on removing the header, footer, and metadata that models tend to easily pick up on, and by actually fine tuning a BERT model with Google Colab's free GPU acceleration. Next I need to make a more complicated simple model that I can convert to a TF.js/TF lite model to run in browser/on device and not even have to pay for inference/server time but still benefit from BERT's accuracy.
 Results below:
 
 ```
-NBSVM============================
+BERT validtion ==========
                           precision    recall  f1-score   support
 
-             alt.atheism       0.86      0.74      0.80       319
-           comp.graphics       0.74      0.74      0.74       389
- comp.os.ms-windows.misc       0.78      0.70      0.74       394
-comp.sys.ibm.pc.hardware       0.70      0.76      0.73       392
-   comp.sys.mac.hardware       0.84      0.85      0.84       385
-          comp.windows.x       0.84      0.83      0.83       395
-            misc.forsale       0.85      0.87      0.86       390
-               rec.autos       0.88      0.91      0.90       396
-         rec.motorcycles       0.96      0.95      0.95       398
-      rec.sport.baseball       0.93      0.92      0.93       397
-        rec.sport.hockey       0.94      0.98      0.96       399
-               sci.crypt       0.91      0.93      0.92       396
-         sci.electronics       0.81      0.75      0.78       393
-                 sci.med       0.91      0.82      0.86       396
-               sci.space       0.92      0.92      0.92       394
-  soc.religion.christian       0.91      0.93      0.92       398
-      talk.politics.guns       0.80      0.89      0.85       364
-   talk.politics.mideast       0.96      0.88      0.92       376
-      talk.politics.misc       0.72      0.67      0.69       310
-      talk.religion.misc       0.55      0.75      0.64       251
+             alt.atheism       0.54      0.47      0.50       319
+           comp.graphics       0.73      0.70      0.71       389
+ comp.os.ms-windows.misc       0.70      0.66      0.68       394
+comp.sys.ibm.pc.hardware       0.69      0.63      0.66       392
+   comp.sys.mac.hardware       0.74      0.75      0.75       385
+          comp.windows.x       0.80      0.83      0.81       395
+            misc.forsale       0.87      0.84      0.85       390
+               rec.autos       0.55      0.76      0.64       396
+         rec.motorcycles       0.73      0.75      0.74       398
+      rec.sport.baseball       0.92      0.81      0.86       397
+        rec.sport.hockey       0.90      0.88      0.89       399
+               sci.crypt       0.80      0.73      0.76       396
+         sci.electronics       0.63      0.62      0.63       393
+                 sci.med       0.83      0.83      0.83       396
+               sci.space       0.77      0.80      0.78       394
+  soc.religion.christian       0.73      0.75      0.74       398
+      talk.politics.guns       0.61      0.67      0.64       364
+   talk.politics.mideast       0.91      0.78      0.84       376
+      talk.politics.misc       0.50      0.48      0.49       310
+      talk.religion.misc       0.33      0.40      0.36       251
 
-                accuracy                           0.84      7532
-               macro avg       0.84      0.84      0.84      7532
-            weighted avg       0.85      0.84      0.84      7532
+                accuracy                           0.72      7532
+               macro avg       0.71      0.71      0.71      7532
+            weighted avg       0.72      0.72      0.72      7532
 ```
 ```
 LinearRegressionBaseline==========
                           precision    recall  f1-score   support
 
-             alt.atheism       0.82      0.73      0.77       319
-           comp.graphics       0.56      0.70      0.62       389
- comp.os.ms-windows.misc       0.42      0.56      0.48       394
-comp.sys.ibm.pc.hardware       0.43      0.67      0.53       392
-   comp.sys.mac.hardware       0.83      0.75      0.79       385
-          comp.windows.x       0.72      0.60      0.65       395
-            misc.forsale       0.56      0.75      0.64       390
-               rec.autos       0.93      0.80      0.86       396
-         rec.motorcycles       0.97      0.92      0.95       398
-      rec.sport.baseball       0.92      0.87      0.90       397
-        rec.sport.hockey       0.97      0.91      0.94       399
-               sci.crypt       0.96      0.84      0.90       396
-         sci.electronics       0.69      0.70      0.70       393
-                 sci.med       0.91      0.73      0.81       396
-               sci.space       0.90      0.79      0.84       394
-  soc.religion.christian       0.85      0.90      0.87       398
-      talk.politics.guns       0.78      0.86      0.82       364
-   talk.politics.mideast       0.98      0.82      0.89       376
-      talk.politics.misc       0.84      0.58      0.69       310
-      talk.religion.misc       0.73      0.64      0.68       251
+             alt.atheism       0.55      0.41      0.47       319
+           comp.graphics       0.49      0.52      0.51       389
+ comp.os.ms-windows.misc       0.40      0.46      0.43       394
+comp.sys.ibm.pc.hardware       0.24      0.52      0.33       392
+   comp.sys.mac.hardware       0.49      0.50      0.49       385
+          comp.windows.x       0.73      0.49      0.58       395
+            misc.forsale       0.28      0.61      0.38       390
+               rec.autos       0.39      0.64      0.48       396
+         rec.motorcycles       0.56      0.56      0.56       398
+      rec.sport.baseball       0.79      0.65      0.71       397
+        rec.sport.hockey       0.81      0.67      0.74       399
+               sci.crypt       0.78      0.54      0.64       396
+         sci.electronics       0.63      0.40      0.49       393
+                 sci.med       0.87      0.57      0.69       396
+               sci.space       0.73      0.52      0.61       394
+  soc.religion.christian       0.66      0.63      0.64       398
+      talk.politics.guns       0.62      0.52      0.57       364
+   talk.politics.mideast       0.87      0.61      0.72       376
+      talk.politics.misc       0.59      0.35      0.44       310
+      talk.religion.misc       0.37      0.24      0.29       251
 
-                accuracy                           0.76      7532
-               macro avg       0.79      0.76      0.77      7532
-            weighted avg       0.79      0.76      0.77      7532
+                accuracy                           0.53      7532
+               macro avg       0.59      0.52      0.54      7532
+            weighted avg       0.60      0.53      0.55      7532
 ```
 ```
-LinearRegressionDistilled=========
+LinRegDist validtion =====
                           precision    recall  f1-score   support
 
-             alt.atheism       0.77      0.69      0.73       319
-           comp.graphics       0.73      0.61      0.67       389
- comp.os.ms-windows.misc       0.29      0.62      0.40       394
-comp.sys.ibm.pc.hardware       0.64      0.62      0.63       392
-   comp.sys.mac.hardware       0.81      0.69      0.75       385
-          comp.windows.x       0.78      0.59      0.68       395
-            misc.forsale       0.82      0.63      0.71       390
-               rec.autos       0.88      0.83      0.86       396
-         rec.motorcycles       0.94      0.90      0.92       398
-      rec.sport.baseball       0.88      0.90      0.89       397
-        rec.sport.hockey       0.93      0.91      0.92       399
-               sci.crypt       0.89      0.84      0.86       396
-         sci.electronics       0.75      0.59      0.66       393
-                 sci.med       0.87      0.77      0.82       396
-               sci.space       0.90      0.84      0.87       394
-  soc.religion.christian       0.85      0.82      0.84       398
-      talk.politics.guns       0.75      0.87      0.81       364
-   talk.politics.mideast       0.95      0.84      0.89       376
-      talk.politics.misc       0.60      0.59      0.60       310
-      talk.religion.misc       0.45      0.67      0.54       251
+             alt.atheism       0.52      0.45      0.48       319
+           comp.graphics       0.57      0.64      0.60       389
+ comp.os.ms-windows.misc       0.48      0.57      0.52       394
+comp.sys.ibm.pc.hardware       0.60      0.57      0.58       392
+   comp.sys.mac.hardware       0.51      0.62      0.56       385
+          comp.windows.x       0.75      0.58      0.65       395
+            misc.forsale       0.75      0.68      0.72       390
+               rec.autos       0.45      0.69      0.54       396
+         rec.motorcycles       0.60      0.67      0.63       398
+      rec.sport.baseball       0.80      0.70      0.74       397
+        rec.sport.hockey       0.82      0.77      0.79       399
+               sci.crypt       0.74      0.66      0.69       396
+         sci.electronics       0.58      0.53      0.56       393
+                 sci.med       0.77      0.65      0.70       396
+               sci.space       0.69      0.61      0.65       394
+  soc.religion.christian       0.63      0.66      0.64       398
+      talk.politics.guns       0.58      0.58      0.58       364
+   talk.politics.mideast       0.82      0.65      0.73       376
+      talk.politics.misc       0.46      0.41      0.44       310
+      talk.religion.misc       0.30      0.40      0.34       251
 
-                accuracy                           0.75      7532
-               macro avg       0.77      0.74      0.75      7532
-            weighted avg       0.78      0.75      0.76      7532
+                accuracy                           0.61      7532
+               macro avg       0.62      0.60      0.61      7532
+            weighted avg       0.63      0.61      0.62      7532
 ```
 
 # Work to do for experimentation

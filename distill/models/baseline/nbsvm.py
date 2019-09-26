@@ -7,13 +7,15 @@ train_b = fetch_20newsgroups(
     subset='train',
     shuffle=True,
     random_state=42,
-    data_home='/app/distill/data'
+    data_home='/app/distill/data',
+    remove=('headers', 'footers', 'quotes')
 )
 test_b = fetch_20newsgroups(
     subset='test',
     shuffle=True,
     random_state=42,
-    data_home='/app/distill/data'
+    data_home='/app/distill/data',
+    remove=('headers', 'footers', 'quotes')
 )
 
 print('size of training set: %s' % (len(train_b['data'])))
