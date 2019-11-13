@@ -145,6 +145,18 @@ https://arxiv.org/abs/1503.02531
 Distilling Task-Specific Knowledge from BERT into Simple Neural Networks (Tang et al, 2019):
 https://arxiv.org/abs/1903.12136
 
+Well-Read Students Learn Better: On the Importance of Pre-training Compact Models
+https://arxiv.org/abs/1908.08962v2
+
+Extreme Language Model Compression with Optimal Subwords and Shared Projections
+https://arxiv.org/abs/1909.11687v1
+
+Distilling Task-Specific Knowledge from BERT into Simple Neural Networks
+https://arxiv.org/abs/1903.12136v1
+
+Patient Knowledge Distillation for BERT Model Compression
+https://arxiv.org/pdf/1908.09355.pdf
+
 Born Again Neural Networks (Furlanello et al, 2018):
 https://arxiv.org/abs/1805.04770
 
