@@ -24,7 +24,7 @@ And this talk on Knowledge Distillation: https://blog.feedly.com/nlp-breakfast-8
 Take aways of those are basically that the big network learns much richer information than the sort of one-hot encoded data fed it.
 In the MNIST example, a big network can learn on its own that a 1 and a 7 are similar, but it also has a bunch of (Hinton argues mostly) so called "Dark Knowledge"
 
-That is, the network knows a great deal about generalization between related classes, even among unrealted prediction, and we don't necessarily need a network that "has" that knowledge, so much as one that can use it.
+That is, the network knows a great deal about generalization between related classes, even among unrealted prediction, and we don't necessarily need a network that has discovered that knowledge, so much as one that can use it. It's the difference between discovering calculus, and learning calculus.
 
 # Experimental results
 So the distilled linear regression model outperformed the baseline linear regression model by a pretty decent margin. I fixed some of the issues from the last time I ran the experiment by following sklearn's advice on removing the header, footer, and metadata that models tend to easily pick up on, and by actually fine tuning a BERT model with Google Colab's free GPU acceleration. Next I need to make a more complicated simple model that I can convert to a TF.js/TF lite model to run in browser/on device and not even have to pay for inference/server time but still benefit from BERT's accuracy.
